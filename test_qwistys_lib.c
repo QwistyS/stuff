@@ -9,7 +9,6 @@
 
 int main() {
     QWISTYS_DEBUG_MSG("______________ ALLOC TEST ______________________");
-
     int* pointer = qwistys_malloc(sizeof(int), NULL);
     if (pointer == NULL) {
       QWISTYS_DEBUG_MSG("Something went wrong :/");
@@ -70,19 +69,21 @@ int main() {
     }
 
     flexa_free(array);
+  
     QWISTYS_DEBUG_MSG("______________ FLEXA END ______________________");
   
     QWISTYS_DEBUG_MSG("______________  AVL TREE TEST ______________________");
     typedef struct {
-    int id;
-    char name[100];
-  } user_data_t;
+      int id;
+      char name[100];
+    } user_data_t;
     
     avlt_node_t* node = avlt_create_node(sizeof(user_data_t));
     if(node == NULL) {
-    exit(-1);
-  }
-  QWISTYS_DEBUG_MSG("______________  AVL TREE TEST ______________________");
+      exit(-1);
+    }
+  
+    QWISTYS_DEBUG_MSG("______________  AVL TREE END ______________________");
 
-  return 0;
+    return 0;
 }

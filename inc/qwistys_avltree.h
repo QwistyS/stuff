@@ -65,12 +65,10 @@ avlt_node_t *avlt_left_rotate(avlt_node_t *x_node);
 #ifdef QWISTYS_ALVTREE_IMPLEMENTATION
 
 avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes) {
-  avlt_node_t *tmp;
-
   QWISTYS_ASSERT(user_data_length_in_bytes != 0);
+  avlt_node_t *tmp = (avlt_node_t*)qwistys_malloc(sizeof(avlt_node_t), NULL);
+  QWISTYS_ASSERT(tmp);
   tmp->user_data = (void *)qwistys_malloc(user_data_length_in_bytes, NULL);
-  QWISTYS_TODO_MSG("Add cannary at the end of the user_data pointer");
-
   return tmp;
 }
 
