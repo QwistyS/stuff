@@ -1,5 +1,5 @@
-#ifndef QWISTYS_LIB_H
-#define QWISTYS_LIB_H
+#ifndef QWISTYS_FLEXA_H
+#define QWISTYS_FLEXA_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -204,4 +204,4 @@ void* flexa_get_raw_data(flexa_t* array) {
 }
 #endif
 
-#endif // QWISTYS_LIB_H
+#endif // QWISTYS_FLEXA_H

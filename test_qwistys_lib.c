@@ -1,10 +1,31 @@
 #define QWISTYS_ARRAY_IMPLEMENTATION
-#include "qwistys_lib.h"
+#include "qwistys_flexa.h"
+#define QWISTYS_ALVTREE_IMPLEMENTATION
+#include "qwistys_avltree.h"
+#define QWISTYS_ALLOC_IMPLEMENTATION
+#include "qwistys_alloc.h"
 #include "stdint.h"
 
 
 int main() {
-  // Testing bitwise macros
+    QWISTYS_DEBUG_MSG("______________ ALLOC TEST ______________________");
+
+    int* pointer = qwistys_malloc(sizeof(int), NULL);
+    if (pointer == NULL) {
+      QWISTYS_DEBUG_MSG("Something went wrong :/");
+      return -1;
+    }
+    uint64_t pdata = 0xFFFFFAFAFAFAF;
+    
+    memcpy(pointer, &pdata, sizeof(int));
+    // If wanna check the mem leack uncomment this line
+    // Commented due the HALT on mem overide. 
+    // memcpy(pointer, &pdata, sizeof(uint64_t));
+
+    qwistys_free(pointer);
+    
+    QWISTYS_DEBUG_MSG("______________ ALLOC END ______________________");
+    QWISTYS_DEBUG_MSG("______________ BITWISE TEST ______________________");
     uint32_t bitfield = 0;
 
     QWISTYS_BIT_SET(bitfield, 3);
@@ -12,13 +33,16 @@ int main() {
 
     QWISTYS_BIT_CLEAR(bitfield, 3);
     QWISTYS_ASSERT(QWISTYS_BIT_CHECK(bitfield, 3) == false);
-
+  
     QWISTYS_BIT_TOGGLE(bitfield, 3);
     QWISTYS_ASSERT(QWISTYS_BIT_CHECK(bitfield, 3) == true);
-
     QWISTYS_BIT_TOGGLE(bitfield, 3);
     QWISTYS_ASSERT(QWISTYS_BIT_CHECK(bitfield, 3) == false);
+    QWISTYS_DEBUG_MSG("______________ BITWISE END ______________________");
 
+
+    QWISTYS_DEBUG_MSG("______________ FLEXA TEST ______________________");
+  
     flexa_t* array = flexa_init(sizeof(int), 5);
     if (!array) {
         return -1;
@@ -46,6 +70,19 @@ int main() {
     }
 
     flexa_free(array);
+    QWISTYS_DEBUG_MSG("______________ FLEXA END ______________________");
+  
+    QWISTYS_DEBUG_MSG("______________  AVL TREE TEST ______________________");
+    typedef struct {
+    int id;
+    char name[100];
+  } user_data_t;
+    
+    avlt_node_t* node = avlt_create_node(sizeof(user_data_t));
+    if(node == NULL) {
+    exit(-1);
+  }
+  QWISTYS_DEBUG_MSG("______________  AVL TREE TEST ______________________");
 
-    return 0;
+  return 0;
 }
