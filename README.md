@@ -1,21 +1,18 @@
 # Qwistys Lib
 
-Qwistys Lib is a collection of commonly used data structures and utilities designed for efficient and easy usage. This library aims to provide basic implementations for dynamic arrays, linked lists, trees, hashes, and more.
+Qwistys Lib is a collection of commonly used data structures and utilities designed for efficient and easy usage. This library aims to provide basic implementations for usual stuff.
+I alwasy reiplment those ... So .... here we are.
 
 ## Features
-
-- Dynamic Arrays
-- Easy-to-use APIs
-- Efficient memory management
-- Debug and telemetry support
-- Customizable through macros
+- (Flex Array)[docs/flexa.mb]
+- (Allocator)[docs/alloc.md]
+- (Avl Tree)[docs/avltree.md]
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
-  - [Dynamic Array](#dynamic-array)
 - [Customization](#customization)
 - [Contributing](#contributing)
 - [License](#license)
@@ -27,11 +24,11 @@ To use Qwistys Lib in your project, simply include the header files and define `
 ### Example
 
 1. Clone the repository or download the header files.
-2. Include `qwistys_lib.h` in your project.
+2. Include `.h` you need and dont forget the QWISTYS_*_IMPLEMENTATION flag.
 
 ```c
 #include "qwistys_lib.h"
 
-#define QWISTYS_ARRAY_IMPLEMENTATION
-#include "qwistys_lib.h"
+#define QWISTYS_ALLOC_IMPLEMENTATION
+#include "qwistys_alloc.h"
 

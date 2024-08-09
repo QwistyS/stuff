@@ -7,6 +7,8 @@ extern "C" {
 
 #include "qwistys_macros.h"
 #include "string.h"
+#define QWISTYS_ALLOC_IMPLEMENTATION
+#include "qwistys_alloc.h"
 
 // ================================================
 // AVL tree generic implementation
@@ -66,7 +68,7 @@ avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes) {
   avlt_node_t *tmp;
 
   QWISTYS_ASSERT(user_data_length_in_bytes != 0);
-  tmp->user_data = (void *)malloc(user_data_length_in_bytes);
+  tmp->user_data = (void *)qwistys_malloc(user_data_length_in_bytes, NULL);
   QWISTYS_TODO_MSG("Add cannary at the end of the user_data pointer");
 
   return tmp;
@@ -105,9 +107,9 @@ avlt_node_t *avlt_right_rotate(avlt_node_t *y_node) {
 
   // Update heightgs
   y_node->height = 1 + (avlt_get_hight(y_node->left) > avlt_get_hight(y_node->right)) ? avlt_get_hight(y_node->left) : avlt_get_hight(y_node->right);
-x_node->height = 1 + (avlt_get_hight(x_node->left) > avlt_get_hight(x_node->right)) ? avlt_get_hight(x_node->left) : avlt_get_hight(x_node->right);
+  x_node->height = 1 + (avlt_get_hight(x_node->left) > avlt_get_hight(x_node->right)) ? avlt_get_hight(x_node->left) : avlt_get_hight(x_node->right);
 
-return x_node;
+  return x_node;
 }
 
 
