@@ -66,7 +66,7 @@ avlt_node_t *avlt_left_rotate(avlt_node_t *x_node);
 
 avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes) {
   QWISTYS_ASSERT(user_data_length_in_bytes != 0);
-  avlt_node_t *tmp = (avlt_node_t*)qwistys_malloc(sizeof(avlt_node_t), NULL);
+  avlt_node_t *tmp = (avlt_node_t *)qwistys_malloc(sizeof(avlt_node_t), NULL);
   QWISTYS_ASSERT(tmp);
   tmp->user_data = (void *)qwistys_malloc(user_data_length_in_bytes, NULL);
   return tmp;
@@ -80,7 +80,7 @@ uint32_t avlt_get_hight(avlt_node_t *node) {
 }
 
 int avlt_get_balance(avlt_node_t *node) {
-  if(node == NULL) {
+  if (node == NULL) {
     return 0;
   }
   // if left and right same level then 0 which this node is balanced. else not
@@ -88,28 +88,62 @@ int avlt_get_balance(avlt_node_t *node) {
 }
 
 avlt_node_t *avlt_right_rotate(avlt_node_t *y_node) {
-  // Temps
-  avlt_node_t* x_node = y_node->left;
-  avlt_node_t* tmp_node = x_node->right;
+  // temps
+  avlt_node_t *x_node = y_node->left;
+  avlt_node_t *tmp_node = x_node->right;
 
-  // Rotation
+  // rotation
   x_node->right = y_node;
   y_node->left = tmp_node;
 
-  // Update parent
+  // update parent
   x_node->parent = y_node->parent;
   y_node->parent = x_node;
-  if (tmp_node != NULL) {
+  if (tmp_node != null) {
     tmp_node->parent = y_node;
   }
 
-  // Update heightgs
-  y_node->height = 1 + (avlt_get_hight(y_node->left) > avlt_get_hight(y_node->right)) ? avlt_get_hight(y_node->left) : avlt_get_hight(y_node->right);
-  x_node->height = 1 + (avlt_get_hight(x_node->left) > avlt_get_hight(x_node->right)) ? avlt_get_hight(x_node->left) : avlt_get_hight(x_node->right);
+  // update heightgs
+  y_node->height =
+      1 + (avlt_get_hight(y_node->left) > avlt_get_hight(y_node->right))
+          ? avlt_get_hight(y_node->left)
+          : avlt_get_hight(y_node->right);
+  x_node->height =
+      1 + (avlt_get_hight(x_node->left) > avlt_get_hight(x_node->right))
+          ? avlt_get_hight(x_node->left)
+          : avlt_get_hight(x_node->right);
 
   return x_node;
 }
 
+avlt_node_t *avlt_left_rotate(avlt_node_t *y_node) {
+  // temps
+  avlt_node_t *x_node = y_node->left;
+  avlt_node_t *tmp_node = x_node->right;
+
+  // rotation
+  x_node->right = y_node;
+  y_node->left = tmp_node;
+
+  // update parent
+  x_node->parent = y_node->parent;
+  y_node->parent = x_node;
+  if (tmp_node != null) {
+    tmp_node->parent = y_node;
+  }
+
+  // update heightgs
+  y_node->height =
+      1 + (avlt_get_hight(y_node->left) > avlt_get_hight(y_node->right))
+          ? avlt_get_hight(y_node->left)
+          : avlt_get_hight(y_node->right);
+  x_node->height =
+      1 + (avlt_get_hight(x_node->left) > avlt_get_hight(x_node->right))
+          ? avlt_get_hight(x_node->left)
+          : avlt_get_hight(x_node->right);
+
+  return x_node;
+}
 
 #endif // QWISTYS_ALVTREE_IMPLEMENTATION
 
