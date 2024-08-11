@@ -99,7 +99,7 @@ avlt_node_t *avlt_right_rotate(avlt_node_t *y_node) {
   // update parent
   x_node->parent = y_node->parent;
   y_node->parent = x_node;
-  if (tmp_node != null) {
+  if (tmp_node != NULL) {
     tmp_node->parent = y_node;
   }
 
@@ -128,7 +128,7 @@ avlt_node_t *avlt_left_rotate(avlt_node_t *y_node) {
   // update parent
   x_node->parent = y_node->parent;
   y_node->parent = x_node;
-  if (tmp_node != null) {
+  if (tmp_node != NULL) {
     tmp_node->parent = y_node;
   }
 

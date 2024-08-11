@@ -1,4 +1,4 @@
-#:fndef QWISTYS_FLEXA_H
+#ifndef QWISTYS_FLEXA_H
 #define QWISTYS_FLEXA_H
 
 #ifdef __cplusplus
