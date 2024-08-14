@@ -1,0 +1,3 @@
+/home/qwistys/src/stuff/build/CMakeFiles/test_qwistys_lib.dir
+/home/qwistys/src/stuff/build/CMakeFiles/edit_cache.dir
+/home/qwistys/src/stuff/build/CMakeFiles/rebuild_cache.dir
