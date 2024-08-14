@@ -32,9 +32,9 @@ Functions
 ```c
 avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes);
 ```
-Creating node with custom allocated mem for user data
-@param size_t user data length in bytes
-@note with custome allocator ... see qwistys_alloc.----------
+Creating node with custom allocated mem for user data.
+- param: *size_t* user data length in bytes
+#note with custome allocator ... see qwistys_alloc.h
 
 ```c
 uint32_t avlt_get_height(avlt_node_t *node);
@@ -69,6 +69,18 @@ internal ... Left rotate the node
     //     B   5   -->  / \   / \ 
     //        / \      A   B C   D
     //       C   D  
+
+```c
+avlt_node_t *avlt_insert(avlt_node_t *node, void *user_data, size_t data_length, int (*cmp)(void *, void *));
+```
+Indesting a node in place.
+- param *avlt_node_t** pointer to node.
+- param *void** pointer to user data.
+- param *size_t* data length in bytes.
+- param *callback* user defined callback to compare between nodes.
+
+
+
 ## RETURN VALUE
 
 ##EXAMPLES
@@ -78,6 +90,51 @@ Example 1: Basic Avl tree Usage
 #include "qwistys_avltree.h"
 
 int main() {
+
+    typedef struct {
+        int id;
+        char name[100];
+    } user_data_t;
+
+    void print_user_data(void* data) {
+        user_data_t* pd = (user_data_t*) data;
+        QWISTYS_DEBUG_MSG("Id = %d Name = %s", pd->id, pd->name);
+    }
+
+    int compare(void* a, void* b) {
+        user_data_t* pa = (user_data_t*) a;
+        user_data_t* pb = (user_data_t*) b;
+        return pa->id - pb->id;
+    }
+    
+    void delet_data(void* data) {
+    user_data_t* pdata = (user_data_t*)data;
+    QWISTYS_DEBUG_MSG("Prepering to delete data {id=%d, Name=%s}", pdata->id, pdata->name);
+  }
+
+    user_data_t user_array[] = {{1, "Daniel Mor"},
+    {2, "Valentina Yagmorov"},
+    {3, "Yuval Mor"},
+    {4, "some other dude"},
+    {12, "some other dude"},
+    {11, "A cool person"},
+    {7, "Shmok person"},
+    {14, "Poor person"},
+    {7, "Rich person"},
+  };
+
+    avlt_node_t* root = NULL;
+
+    for (int i = 0; i < QWISTYS_ARRAY_LEN(user_array); i++) {
+        root = avlt_insert(root, &user_array[i], sizeof(user_data_t), compare);
+    }
+
+    avlt_print(root, print_user_data);
+
+    avlt_delete(root, &user_array[2], compare, delet_data);
+
+    avlt_print(root, print_user_data);
+    QWISTYS_DEBUG_MSG("______________  AVL TREE END ______________________");
 
     return 0;
 }
