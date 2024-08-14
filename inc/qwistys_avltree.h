@@ -253,6 +253,17 @@ void avlt_print(avlt_node_t *root, void (*print_node)(void *)) {
     }
 }
 
+void avlt_free_tree(avlt_node_t *root, void (*del_data)(void *)) {
+    if (root) {
+        avlt_free_tree(root->left, del_data);  // Free left subtree
+        avlt_free_tree(root->right, del_data); // Free right subtree
+        if (del_data) {
+            del_data(root->user_data); // Free user data if needed
+        }
+        QWISTYS_FREE(root); // Free the node itself
+    }
+}
+
 #endif // QWISTYS_AVLT_IMPLEMENTATION
 
 #ifdef __cplusplus

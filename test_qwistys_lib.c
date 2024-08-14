@@ -1,10 +1,7 @@
 #define QWISTYS_ARRAY_IMPLEMENTATION
 #include "qwistys_flexa.h"
-#define QWISTYS_ALVTREE_IMPLEMENTATION
+#define QWISTYS_ALVT_IMPLEMENTATION
 #include "qwistys_avltree.h"
-#define QWISTYS_ALLOC_IMPLEMENTATION
-#include "qwistys_alloc.h"
-#include "stdint.h"
 
 int main() {
   QWISTYS_DEBUG_MSG("______________ ALLOC TEST ______________________");
@@ -69,16 +66,35 @@ int main() {
   flexa_free(array);
 
   QWISTYS_DEBUG_MSG("______________ FLEXA END ______________________");
-
+    
   QWISTYS_DEBUG_MSG("______________  AVL TREE TEST ______________________");
+
   typedef struct {
     int id;
     char name[100];
   } user_data_t;
 
-  avlt_node_t *node = avlt_create_node(sizeof(user_data_t));
-  if (node == NULL) {
-    exit(-1);
+  void print_user_data(void* data) {
+    user_data_t* pd = (user_data_t*)data;
+    QWISTYS_DEBUG_MSG("Id = %d Name = %s", pd->id, pd->name);
+  }
+
+  int compare(void* a, void* b) {
+    user_data_t* pa = (user_data_t*)a;
+    user_data_t* pb = (user_data_t*)b;
+    return pa->id - pb->id;
+  }
+
+  user_data_t user_array[] = {
+    {1, "Daniel Mor"},
+    {2, "Valentina Yagmorov"},
+    {3, "Yuval Mor"}
+  };
+
+  avlt_node_t* root = NULL;
+
+  for (int i = 0; i < QWISTYS_ARRAY_LEN(user_array); i++) {
+    root = avlt_insert(root, &user_array[i], sizeof(user_data_t), compare);
   }
 
   QWISTYS_DEBUG_MSG("______________  AVL TREE END ______________________");
