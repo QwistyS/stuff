@@ -37,11 +37,11 @@ void avlt_print(avlt_node_t *root, void (*print_node)(void *));
 
 // Function to create a new node with user data
 avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes) {
-    avlt_node_t *node = (avlt_node_t *)QWISTYS_ALLOC(sizeof(avlt_node_t));
+    avlt_node_t *node = (avlt_node_t *)qwistys_malloc(sizeof(avlt_node_t), NULL);
     if (!node) return NULL;
-    node->user_data = QWISTYS_ALLOC(user_data_length_in_bytes);
+    node->user_data = qwistys_malloc(user_data_length_in_bytes, NULL);
     if (!node->user_data) {
-        QWISTYS_FREE(node);
+        qwistys_free(node);
         return NULL;
     }
     node->height = 1;
@@ -99,7 +99,7 @@ avlt_node_t *avlt_insert(avlt_node_t *node, void *user_data, size_t data_length,
     if (!node) {
         avlt_node_t *new_node = avlt_create_node(data_length);
         if (new_node) {
-            QWISTYS_MEMCPY(new_node->user_data, user_data, data_length);
+            memcpy(new_node->user_data, user_data, data_length);
         }
         return new_node;
     }
@@ -174,11 +174,11 @@ avlt_node_t *avlt_delete(avlt_node_t *root, void *user_data, int (*cmp)(void *, 
                 *root = *temp;
             }
             del_data(temp->user_data);
-            QWISTYS_FREE(temp->user_data);
-            QWISTYS_FREE(temp);
+            qwistys_free(temp->user_data);
+            qwistys_free(temp);
         } else {
             avlt_node_t *temp = avlt_min_value_node(root->right);
-            QWISTYS_MEMCPY(root->user_data, temp->user_data, sizeof(temp->user_data));
+            memcpy(root->user_data, temp->user_data, sizeof(temp->user_data));
             root->right = avlt_delete(root->right, temp->user_data, cmp, del_data);
         }
     }
@@ -260,7 +260,7 @@ void avlt_free_tree(avlt_node_t *root, void (*del_data)(void *)) {
         if (del_data) {
             del_data(root->user_data); // Free user data if needed
         }
-        QWISTYS_FREE(root); // Free the node itself
+        qwistys_free(root); // Free the node itself
     }
 }
 
