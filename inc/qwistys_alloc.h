@@ -62,17 +62,18 @@ void qwistys_free(void *pointer);
 void *qwistys_malloc(size_t num_of_bytes, user_canary_settings callback) {
   QWISTYS_TELEMETRY_START();
   QWISTYS_ASSERT(num_of_bytes != 0);
-  QWISTYS_DEBUG_MSG("Trying to allocate %d bytes", num_of_bytes);
-  size_t ttl_size = sizeof(mem_header_t) + sizeof(mem_header_t) + num_of_bytes;
+  QWISTYS_DEBUG_MSG("Trying to allocate %zu bytes", num_of_bytes);
+
+  size_t ttl_size = sizeof(mem_header_t) + sizeof(mem_footer_t) + num_of_bytes;
   char *tmp = (char *)malloc(ttl_size);
   if (tmp == NULL) {
-    QWISTYS_DEBUG_MSG("Fail to allocate mem");
+    QWISTYS_DEBUG_MSG("Failed to allocate memory");
     return NULL;
   }
 
   mem_header_t *head = (mem_header_t *)tmp;
-  mem_footer_t *footer =
-      (mem_footer_t *)((char *)head + sizeof(mem_header_t) + num_of_bytes);
+  mem_footer_t *footer = (mem_footer_t *)(tmp + sizeof(mem_header_t) + num_of_bytes);
+
   if (!callback) {
     head->canary = CANARY;
     head->size_user = num_of_bytes;
@@ -81,32 +82,31 @@ void *qwistys_malloc(size_t num_of_bytes, user_canary_settings callback) {
     QWISTYS_DEBUG_MSG("Calling user callback on canary");
     callback(head, footer);
   }
+
   QWISTYS_TELEMETRY_END();
-  QWISTYS_DEBUG_MSG("Success allocating %d bytes", num_of_bytes);
+  QWISTYS_DEBUG_MSG("Successfully allocated %zu bytes", num_of_bytes);
   return tmp + sizeof(mem_header_t);
 }
 
 void qwistys_free(void *pointer) {
-  QWISTYS_ASSERT(pointer);
+  if (!pointer) return;
+
   QWISTYS_TELEMETRY_START();
   char *line = (char *)pointer;
-  QWISTYS_DEBUG_MSG("Trying to free pointer %#08x", line);
-  line = line - sizeof(mem_header_t);
+  line -= sizeof(mem_header_t);
 
   mem_header_t *head = (mem_header_t *)line;
+  mem_footer_t *footer = (mem_footer_t *)(line + sizeof(mem_header_t) + head->size_user);
 
   if (head->canary != CANARY) {
-    QWISTYS_HALT("header cannay of pointer is corupt");
+    QWISTYS_HALT("Header canary of pointer is corrupt");
   }
-
-  mem_footer_t *footer =
-      (mem_footer_t *)((char *)line + sizeof(mem_header_t) + head->size_user);
   if (footer->canary != CANARY) {
-    QWISTYS_HALT("footer cannay of pointer is corupt");
+    QWISTYS_HALT("Footer canary of pointer is corrupt");
   }
 
   free(line);
-  QWISTYS_DEBUG_MSG("Success to free pointer %#08x", line);
+  QWISTYS_DEBUG_MSG("Successfully freed pointer %p", line);
   QWISTYS_TELEMETRY_END();
 }
 

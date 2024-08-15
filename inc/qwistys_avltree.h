@@ -252,7 +252,6 @@ void avlt_print(avlt_node_t *root, void (*print_node)(void *)) {
         avlt_print(root->right, print_node);
     }
 }
-
 void avlt_free_tree(avlt_node_t *root, void (*del_data)(void *)) {
     if (root) {
         avlt_free_tree(root->left, del_data);  // Free left subtree
@@ -260,6 +259,7 @@ void avlt_free_tree(avlt_node_t *root, void (*del_data)(void *)) {
         if (del_data) {
             del_data(root->user_data); // Free user data if needed
         }
+        qwistys_free(root->user_data); // Free the user data
         qwistys_free(root); // Free the node itself
     }
 }

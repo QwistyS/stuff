@@ -114,6 +114,7 @@ int main() {
     avlt_delete(root, &user_array[2], compare, delet_data);
 
     avlt_print(root, print_user_data);
+    avlt_free_tree(root, delet_data);
     QWISTYS_DEBUG_MSG("______________  AVL TREE END ______________________");
 
     return 0;
