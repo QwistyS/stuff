@@ -117,5 +117,6 @@ int main() {
     avlt_free_tree(root, delet_data);
     QWISTYS_DEBUG_MSG("______________  AVL TREE END ______________________");
 
+    qwistys_print_memory_stats();
     return 0;
 }
