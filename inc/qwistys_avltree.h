@@ -68,6 +68,7 @@ void avl_tree_init(avl_tree_t *tree, qwistys_mutex_t *mutex,
                    qwistys_mutex_destroy_fn destroy_fn,
                    qwistys_mutex_lock_fn lock_fn,
                    qwistys_mutex_unlock_fn unlock_fn) {
+    QWISTYS_TELEMETRY_START();
     tree->root = NULL;
     tree->mutex = mutex;
     tree->mutex_init = init_fn;
@@ -75,12 +76,15 @@ void avl_tree_init(avl_tree_t *tree, qwistys_mutex_t *mutex,
     tree->mutex_lock = lock_fn;
     tree->mutex_unlock = unlock_fn;
     tree->mutex_init(tree->mutex);
+    QWISTYS_TELEMETRY_END();
 }
 
 avlt_node_t *avl_tree_insert(avl_tree_t *tree, void *user_data, size_t data_length, int (*cmp)(void *, void *)) {
+    QWISTYS_TELEMETRY_START();
     tree->mutex_lock(tree->mutex);
     tree->root = avlt_insert(tree->root, user_data, data_length, cmp);
     tree->mutex_unlock(tree->mutex);
+    QWISTYS_TELEMETRY_END();
     return tree->root;
 }
 
@@ -101,6 +105,7 @@ void avl_tree_free(avl_tree_t *tree, void (*del_data)(void *)) {
 
 // Function to create a new node with user data
 avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes) {
+    QWISTYS_TELEMETRY_START();
     avlt_node_t *node = (avlt_node_t *)qwistys_malloc(sizeof(avlt_node_t), NULL);
     if (!node) return NULL;
     node->user_data = qwistys_malloc(user_data_length_in_bytes, NULL);
@@ -112,6 +117,7 @@ avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes) {
     node->left = NULL;
     node->right = NULL;
     node->parent = NULL;
+    QWISTYS_TELEMETRY_END();
     return node;
 }
 

@@ -1,3 +1,4 @@
+#include "qwistys_macros.h"
 #define QWISTYS_ALLOC_IMPLEMENTATION
 #include "qwistys_alloc.h"
 #define QWISTYS_ARRAY_IMPLEMENTATION
@@ -118,5 +119,6 @@ int main() {
     QWISTYS_DEBUG_MSG("______________  AVL TREE END ______________________");
 
     qwistys_print_memory_stats();
+    QWISTYS_TODO_MSG("Add cuncurent test for avl tree.");
     return 0;
 }

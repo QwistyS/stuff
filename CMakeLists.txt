@@ -3,6 +3,9 @@ project(qwistys_lib C)
 
 set(CMAKE_C_STANDARD 99)
 
+# Enable compile_commands.json generation
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Optionally enable telemetry
 option(ENABLE_QWISTYS_TELEMETRY "Enable telemetry for qwistys_lib" OFF)
 
@@ -18,4 +21,3 @@ if(ENABLE_QWISTYS_TELEMETRY)
 endif()
 
 # Link libraries if necessary (in this case, none are required)
-
