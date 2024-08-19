@@ -163,7 +163,7 @@ typedef void (*assert_handler_t)(const char *expr, const char *file,
                                  const char *function, int line);
 static assert_handler_t custom_assert_handler = NULL;
 
-void set_assert_handler(assert_handler_t handler) {
+static inline void set_assert_handler(assert_handler_t handler) {
   custom_assert_handler = handler;
 }
 
