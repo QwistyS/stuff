@@ -42,7 +42,7 @@ typedef enum {
 static FILE *log_file = NULL;
 
 // Function to set the log file
-void set_log_file(const char *file_path) {
+static inline void set_log_file(const char *file_path) {
   if (log_file) {
     fclose(log_file);
   }
@@ -53,7 +53,7 @@ void set_log_file(const char *file_path) {
   }
 }
 
-static void qwistys_default_log(qwistys_log_level_t level, const char *file,
+static inline void qwistys_default_log(qwistys_log_level_t level, const char *file,
                                 const char *function, int line, const char *tag,
                                 const char *fmt, ...) {
   const char *color;
@@ -224,7 +224,7 @@ typedef void (*telemetry_end_handler_t)(const char *function, double duration);
 static telemetry_start_handler_t telemetry_start_handler = NULL;
 static telemetry_end_handler_t telemetry_end_handler = NULL;
 
-void set_telemetry_handlers(telemetry_start_handler_t start_handler,
+static inline void set_telemetry_handlers(telemetry_start_handler_t start_handler,
                             telemetry_end_handler_t end_handler) {
   telemetry_start_handler = start_handler;
   telemetry_end_handler = end_handler;
