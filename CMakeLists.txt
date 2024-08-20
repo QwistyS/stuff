@@ -13,7 +13,7 @@ option(ENABLE_QWISTYS_TELEMETRY "Enable telemetry for qwistys_lib" OFF)
 include_directories(inc)
 
 # Create the test executable
-add_executable(test_qwistys_lib test_qwistys_lib.c)
+add_executable(test_qwistys_lib test_qwistys_lib.c inc/qwistys_alloc.c)
 
 # Optionally define ENABLE_QWISTYS_TELEMETRY
 if(ENABLE_QWISTYS_TELEMETRY)
