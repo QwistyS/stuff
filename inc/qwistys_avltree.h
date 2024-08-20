@@ -5,6 +5,12 @@
 extern "C" {
 #endif
 
+#ifdef STATIC_API
+#define API_IMPL static inline
+#else
+#define API_IMPL extern
+#endif
+
 #include "qwistys_macros.h"
 #define QWISTYS_ALLOC_IMPLMENTATION
 #include "qwistys_alloc.h"
@@ -36,29 +42,35 @@ typedef struct {
 } avl_tree_t;
 
 // Function prototypes
-avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes);
-uint32_t avlt_get_height(avlt_node_t *node);
-int avlt_get_balance(avlt_node_t *node);
-avlt_node_t *avlt_right_rotate(avlt_node_t *y);
-avlt_node_t *avlt_left_rotate(avlt_node_t *x);
-avlt_node_t *avlt_insert(avlt_node_t *node, void *user_data, size_t data_length, int (*cmp)(void *, void *));
-avlt_node_t *avlt_min_value_node(avlt_node_t *node);
-avlt_node_t *avlt_delete(avlt_node_t *root, void *user_data, int (*cmp)(void *, void *), void (*del_data)(void *));
-void avlt_pre_order(avlt_node_t *root, void (*process_node)(void *));
-void avlt_in_order(avlt_node_t *root, void (*process_node)(void *));
-void avlt_post_order(avlt_node_t *root, void (*process_node)(void *));
-void avlt_print(avlt_node_t *root, void (*print_node)(void *));
-void avlt_free_tree(avlt_node_t *root, void (*del_data)(void *));
+API_IMPL avlt_node_t *avlt_create_node(size_t user_data_length_in_bytes);
+API_IMPL uint32_t avlt_get_height(avlt_node_t *node);
+API_IMPL int avlt_get_balance(avlt_node_t *node);
+API_IMPL avlt_node_t *avlt_right_rotate(avlt_node_t *y);
+API_IMPL avlt_node_t *avlt_left_rotate(avlt_node_t *x);
+API_IMPL avlt_node_t *avlt_insert(avlt_node_t *node, void *user_data, size_t data_length, int (*cmp)(void *, void *));
+API_IMPL avlt_node_t *avlt_min_value_node(avlt_node_t *node);
+API_IMPL avlt_node_t *avlt_delete(avlt_node_t *root, void *user_data, int (*cmp)(void *, void *), void (*del_data)(void *));
+API_IMPL void avlt_pre_order(avlt_node_t *root, void (*process_node)(void *));
+API_IMPL void avlt_in_order(avlt_node_t *root, void (*process_node)(void *));
+API_IMPL void avlt_post_order(avlt_node_t *root, void (*process_node)(void *));
+API_IMPL void avlt_print(avlt_node_t *root, void (*print_node)(void *));
+API_IMPL void avlt_free_tree(avlt_node_t *root, void (*del_data)(void *));
 
 // Function prototypes for thread-safe operations
-void avl_tree_init(avl_tree_t *tree, qwistys_mutex_t *mutex,
+API_IMPL void avl_tree_init(avl_tree_t *tree, qwistys_mutex_t *mutex,
                    qwistys_mutex_init_fn init_fn,
                    qwistys_mutex_destroy_fn destroy_fn,
                    qwistys_mutex_lock_fn lock_fn,
                    qwistys_mutex_unlock_fn unlock_fn);
-avlt_node_t *avl_tree_insert(avl_tree_t *tree, void *user_data, size_t data_length, int (*cmp)(void *, void *));
-avlt_node_t *avl_tree_delete(avl_tree_t *tree, void *user_data, int (*cmp)(void *, void *), void (*del_data)(void *));
-void avl_tree_free(avl_tree_t *tree, void (*del_data)(void *));
+API_IMPL avlt_node_t *avl_tree_insert(avl_tree_t *tree, void *user_data, size_t data_length, int (*cmp)(void *, void *));
+API_IMPL avlt_node_t *avl_tree_delete(avl_tree_t *tree, void *user_data, int (*cmp)(void *, void *), void (*del_data)(void *));
+API_IMPL void avl_tree_free(avl_tree_t *tree, void (*del_data)(void *));
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // QWISTYS_AVLTREE_H
 
 // Implementation section
 #ifdef QWISTYS_AVLT_IMPLEMENTATION
@@ -335,10 +347,3 @@ void avlt_free_tree(avlt_node_t *root, void (*del_data)(void *)) {
 }
 
 #endif // QWISTYS_AVLT_IMPLEMENTATION
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif // QWISTYS_AVLTREE_H
-
