@@ -24,6 +24,7 @@ extern "C" {
 
 #define QWISTYS_MACRONAME "[QWISTYS MACRO]"
 #define QWISTYS_TAG_TODO "\x1B[36mTODO: \x1B[33m"
+#define QWISTYS_TAG_DEBUG "\x1B[32m[DEBUG] \x1B[33m"
 #define QWISTYS_TAG_IMPLEMENTED "NOT IMPLEMENTED "
 #define QWISTYS_TAG_HALT "\x1B[31mHALT: \x1B[34m"
 #define QWISTYS_TAG_SE "SET EQUAL"
@@ -212,7 +213,7 @@ static void default_assert_handler(const char *expr, const char *file,
 
 #ifndef NDEBUG
 #define QWISTYS_DEBUG_MSG(msg, ...)                                            \
-  QWISTYS_MSG(QWISTYS_LOG_LEVEL_DEBUG, "[DEBUG] ", msg, ##__VA_ARGS__)
+  QWISTYS_MSG(QWISTYS_LOG_LEVEL_DEBUG, QWISTYS_TAG_DEBUG, msg, ##__VA_ARGS__)
 #else
 #define QWISTYS_DEBUG_MSG(msg, ...) ((void)0)
 #endif
