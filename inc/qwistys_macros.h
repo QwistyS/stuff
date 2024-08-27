@@ -25,6 +25,7 @@ extern "C" {
 #define QWISTYS_MACRONAME "[QWISTYS MACRO]"
 #define QWISTYS_TAG_TODO "\x1B[36mTODO: \x1B[33m"
 #define QWISTYS_TAG_DEBUG "\x1B[32m[DEBUG] \x1B[33m"
+#define QWISTYS_TAG_ERROR "\x1B[321[ERROR] \x1B[31m"
 #define QWISTYS_TAG_IMPLEMENTED "NOT IMPLEMENTED "
 #define QWISTYS_TAG_HALT "\x1B[31mHALT: \x1B[34m"
 #define QWISTYS_TAG_SE "SET EQUAL"
@@ -217,6 +218,8 @@ static void default_assert_handler(const char *expr, const char *file,
 #else
 #define QWISTYS_DEBUG_MSG(msg, ...) ((void)0)
 #endif
+#define QWISTYS_DEBUG_ERROR(msg, ...)                                            \
+  QWISTYS_MSG(QWISTYS_LOG_LEVEL_DEBUG, QWISTYS_TAG_ERROR, msg, ##__VA_ARGS__)
 
 // Telemetry macros
 typedef void (*telemetry_start_handler_t)(const char *function);
