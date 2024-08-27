@@ -218,7 +218,7 @@ static void default_assert_handler(const char *expr, const char *file,
 #else
 #define QWISTYS_DEBUG_MSG(msg, ...) ((void)0)
 #endif
-#define QWISTYS_DEBUG_ERROR(msg, ...)                                            \
+#define QWISTYS_ERROR_MSG(msg, ...)                                            \
   QWISTYS_MSG(QWISTYS_LOG_LEVEL_DEBUG, QWISTYS_TAG_ERROR, msg, ##__VA_ARGS__)
 
 // Telemetry macros
