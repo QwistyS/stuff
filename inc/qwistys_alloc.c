@@ -11,7 +11,7 @@ static size_t peak_usage = 0;
 
 qwistys_alloc_error_t qwistys_alloc_error = QWISTYS_ALLOC_SUCCESS;
 
-static void* qwistys_alloc_internal(size_t num_of_bytes, user_canary_settings callback) {
+API_IMPL void* qwistys_alloc_internal(size_t num_of_bytes, user_canary_settings callback) {
     QWISTYS_TELEMETRY_START();
     QWISTYS_ASSERT(num_of_bytes != 0);
     QWISTYS_DEBUG_MSG("Trying to allocate %zu bytes", num_of_bytes);
@@ -48,11 +48,11 @@ static void* qwistys_alloc_internal(size_t num_of_bytes, user_canary_settings ca
     return block + sizeof(qwistys_alloc_header_t);
 }
 
-void* qwistys_malloc(size_t num_of_bytes, user_canary_settings callback) {
+API_IMPL void* qwistys_malloc(size_t num_of_bytes, user_canary_settings callback) {
     return qwistys_alloc_internal(num_of_bytes, callback);
 }
 
-void qwistys_free(void* pointer) {
+API_IMPL void qwistys_free(void* pointer) {
     QWISTYS_TELEMETRY_START();
     if (!pointer) {
         QWISTYS_DEBUG_MSG("Attempt to free NULL pointer");
@@ -80,7 +80,7 @@ void qwistys_free(void* pointer) {
     QWISTYS_TELEMETRY_END();
 }
 
-void* qwistys_calloc(size_t num, size_t size, user_canary_settings callback) {
+API_IMPL void* qwistys_calloc(size_t num, size_t size, user_canary_settings callback) {
     QWISTYS_TELEMETRY_START();
     
     size_t total_size;
@@ -100,7 +100,7 @@ void* qwistys_calloc(size_t num, size_t size, user_canary_settings callback) {
     return ptr;
 }
 
-void* qwistys_realloc(void* ptr, size_t new_size, user_canary_settings callback) {
+API_IMPL void* qwistys_realloc(void* ptr, size_t new_size, user_canary_settings callback) {
     QWISTYS_TELEMETRY_START();
     
     if (!ptr) {
@@ -137,7 +137,7 @@ void* qwistys_realloc(void* ptr, size_t new_size, user_canary_settings callback)
     return new_ptr;
 }
 
-size_t qwistys_get_allocated_size(void* ptr) {
+API_IMPL size_t qwistys_get_allocated_size(void* ptr) {
     QWISTYS_TELEMETRY_START();
     
     if (!ptr) {
@@ -160,7 +160,7 @@ size_t qwistys_get_allocated_size(void* ptr) {
     return header->size;
 }
 
-void qwistys_print_memory_stats(void) {
+API_IMPL void qwistys_print_memory_stats(void) {
     QWISTYS_TELEMETRY_START();
     
     QWISTYS_DEBUG_MSG("Memory Statistics:");
