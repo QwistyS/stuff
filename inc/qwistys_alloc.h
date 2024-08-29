@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#ifdef _WIN32
+#ifdef STATIC_API
 #define API_IMPL static
 #else 
 #define API_IMPL extern
