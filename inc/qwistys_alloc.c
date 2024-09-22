@@ -9,7 +9,7 @@ static size_t total_freed = 0;
 static size_t current_usage = 0;
 static size_t peak_usage = 0;
 
-API_IMPL qwistys_alloc_error_t qwistys_alloc_error = QWISTYS_ALLOC_SUCCESS;
+static qwistys_alloc_error_t qwistys_alloc_error = QWISTYS_ALLOC_SUCCESS;
 
 API_IMPL void* qwistys_alloc_internal(size_t num_of_bytes, user_canary_settings callback) {
     QWISTYS_TELEMETRY_START();

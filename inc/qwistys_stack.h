@@ -5,12 +5,7 @@
 extern "C" {
 #endif
 
-#ifdef STATIC_API
-#define API_IMPL static inline
-#else
-#define API_IMPL extern
-#endif
-
+#include "qwistys_api.h"
 #include "qwistys_flexa.h"
 
 // Stack structure using flexa

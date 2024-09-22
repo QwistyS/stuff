@@ -5,11 +5,7 @@
 extern "C" {
 #endif
 
-#ifdef STATIC_API
-#define API_IMPL static
-#else 
-#define API_IMPL extern
-#endif
+#include "qwistys_api.h"
 
 #include <stdint.h>
 #include <stddef.h>
@@ -24,7 +20,7 @@ typedef enum {
 } qwistys_alloc_error_t;
 
 // Global error variable
-API_IMPL qwistys_alloc_error_t qwistys_alloc_error;
+static qwistys_alloc_error_t qwistys_alloc_error;
 
 // Alignment
 #define QWISTYS_ALLOC_ALIGNMENT 16
