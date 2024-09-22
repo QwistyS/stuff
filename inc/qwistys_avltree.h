@@ -49,7 +49,7 @@ API_IMPL avlt_node_t *avlt_insert(avlt_node_t *node, void *user_data, size_t dat
 API_IMPL avlt_node_t *avlt_min_value_node(avlt_node_t *node);
 API_IMPL avlt_node_t *avlt_delete(avlt_node_t *root, void *user_data, int (*cmp)(void *, void *), void (*del_data)(void *));
 API_IMPL void avlt_pre_order(avlt_node_t *root, void (*process_node)(void *));
-API_IMPL void avlt_in_order(avlt_node_t *root, void (*process_node)(void *));
+API_IMPL void avlt_in_order(avlt_node_t *root, void (*process_node)(void*, void*), void* cbs);
 API_IMPL void avlt_post_order(avlt_node_t *root, void (*process_node)(void *));
 API_IMPL void avlt_print(avlt_node_t *root, void (*print_node)(void *));
 API_IMPL void avlt_free_tree(avlt_node_t *root, void (*del_data)(void *));

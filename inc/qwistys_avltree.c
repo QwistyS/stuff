@@ -237,11 +237,11 @@ void avlt_pre_order(avlt_node_t *root, void (*process_node)(void *)) {
 }
 
 // In-order traversal
-void avlt_in_order(avlt_node_t *root, void (*process_node)(void *)) {
+void avlt_in_order(avlt_node_t *root, void (*process_node)(void*, void*), void* cbs) {
     if (root) {
-        avlt_in_order(root->left, process_node);
-        process_node(root->user_data);
-        avlt_in_order(root->right, process_node);
+        avlt_in_order(root->left, process_node, cbs);
+        process_node(root->user_data, cbs);
+        avlt_in_order(root->right, process_node, cbs);
     }
 }
 
