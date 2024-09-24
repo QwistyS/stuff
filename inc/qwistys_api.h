@@ -3,7 +3,7 @@
 
 
 #ifdef STATIC_API
-#define API_IMPL inline
+#define API_IMPL static
 #else 
 #define API_IMPL extern
 #endif
