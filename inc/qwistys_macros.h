@@ -221,41 +221,8 @@ static void default_assert_handler(const char *expr, const char *file,
 #define QWISTYS_ERROR_MSG(msg, ...)                                            \
   QWISTYS_MSG(QWISTYS_LOG_LEVEL_DEBUG, QWISTYS_TAG_ERROR, msg, ##__VA_ARGS__)
 
-// Telemetry macros
-typedef void (*telemetry_start_handler_t)(const char *function);
-typedef void (*telemetry_end_handler_t)(const char *function, double duration);
-
-static telemetry_start_handler_t telemetry_start_handler = NULL;
-static telemetry_end_handler_t telemetry_end_handler = NULL;
-
-static inline void set_telemetry_handlers(telemetry_start_handler_t start_handler,
-                            telemetry_end_handler_t end_handler) {
-  telemetry_start_handler = start_handler;
-  telemetry_end_handler = end_handler;
-}
-
-typedef struct {
-  const char *function;
-  clock_t start_time;
-} telemetry_data_t;
-
-#ifdef ENABLE_QWISTYS_TELEMETRY
-#define QWISTYS_TELEMETRY_START()                                              \
-  telemetry_data_t telemetry_data = {__func__, clock()};                       \
-  if (telemetry_start_handler)                                                 \
-    telemetry_start_handler(__func__);
-
-#define QWISTYS_TELEMETRY_END()                                                \
-  if (telemetry_end_handler) {                                                 \
-    clock_t end_time = clock();                                                \
-    double duration =                                                          \
-        (double)(end_time - telemetry_data.start_time) / CLOCKS_PER_SEC;       \
-    telemetry_end_handler(__func__, duration);                                 \
-  }
-#else
-#define QWISTYS_TELEMETRY_START() ((void)0)
-#define QWISTYS_TELEMETRY_END() ((void)0)
-#endif
+// Telemetry macros — see qwistys_telemetry.h for Tracy / callback / no-op backends
+#include "qwistys_telemetry.h"
 
 // Bounds check macro
 #define QWISTYS_BOUNDS_CHECK(index, size)                                      \
